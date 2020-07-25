@@ -1,4 +1,4 @@
-all: libLcd.a lcddemo.elf
+all: libLcd.a toy.elf
 
 CPU             = msp430g2553
 CFLAGS          = -mmcu=${CPU} -Os -I../h 
@@ -11,8 +11,8 @@ AR              = msp430-elf-ar
 libLcd.a: font-11x16.o font-5x7.o font-8x12.o lcdutils.o lcddraw.o
 	$(AR) crs $@ $^
 
+lcdutils.o: lcdutils.c lcdutils.h lcdtypes.h
 lcddraw.o: lcddraw.c lcddraw.h lcdutils.h
-lcdutils.o: lcdutils.c lcdutils.h
 
 install: libLcd.a
 	mkdir -p ../h ../lib
@@ -22,8 +22,11 @@ install: libLcd.a
 clean:
 	rm -f libLcd.a *.o *.elf
 
-lcdmagic.elf: lcdmagic.o libLcd.a 
+erase:
+	rm -f *~ *#
+
+toy.elf: ${COMMON_OBJECTS} p1_interrupt_handler.o led.o switches.o toyMain.o ../lib/libTimer.a buzzer.o stateMachines.o wdInterruptHandler.o libLcd.a 
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer 
 
-load: lcdmagic.elf
+load: toy.elf
 	msp430loader.sh $^
