@@ -35,6 +35,15 @@ switch_interrupt_handler()
   button2_down = (p2val & SW2) ? 0:1;
   button3_down = (p2val & SW3) ? 0:1; 
   button4_down = (p2val & SW4) ? 0:1;
+
+  if(button1_down == 1)
+    {state = 1;}
+  if(button2_down == 1)
+    {state = 2;}
+  if(button3_down == 1)
+    {state = 3;}
+  if(button4_down == 1)
+    {state = 4;}
   switch_state_changed = 1;
 
 }

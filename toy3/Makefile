@@ -8,11 +8,13 @@ CC              = msp430-elf-gcc
 AS              = msp430-elf-as
 AR              = msp430-elf-ar
 
-libLcd.a: font-11x16.o font-5x7.o font-8x12.o lcdutils.o lcddraw.o
+font-6x8.o: font-6x8.c
+
+libLcd.a: font-5x7.o lcdutils.o lcddraw.o
 	$(AR) crs $@ $^
 
 lcdutils.o: lcdutils.c lcdutils.h lcdtypes.h
-lcddraw.o: lcddraw.c lcddraw.h lcdutils.h
+lcddraw.o: lcddraw.c lcddraw.h lcdutils.h font-6x8.o
 
 install: libLcd.a
 	mkdir -p ../h ../lib

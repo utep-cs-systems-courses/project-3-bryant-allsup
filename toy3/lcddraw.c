@@ -3,6 +3,7 @@
  */
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "font-6x8.c"
 
 
 typedef unsigned char u_char;
@@ -40,6 +41,39 @@ void fillRectangle(u_char colMin, u_char rowMin, u_char width, u_char height,
   }
 }
 
+//width is one directional so its offset right
+void equTriangle(u_char sc, u_char sr, u_char dif, u_int colorBGR)
+{
+  lcd_setArea(sc, sr, sc+dif-1, sr+dif-1);
+  for(int c = 0; c<dif; c++){
+    for(int r = 0; r<=c;r++)
+      {
+	drawPixel(c+sc,sr-r,colorBGR);
+	drawPixel(sc-c+(dif*2)-1,sr-r,colorBGR);
+      }
+  }
+  
+}
+
+void rhombus(u_char sc, u_char sr, u_char dif, u_int colorBGR)
+{
+  lcd_setArea(sc, sr, sc+dif-1, sr+dif-1);
+  for(int c = 0; c<dif; c++){
+    for(int r = 0; r<=c;r++)
+      {
+	drawPixel(c+sc,r+sr,colorBGR);
+	drawPixel(sc-c+(dif*2)-1,r+sr,colorBGR);
+	drawPixel(c+sc,sr-r,colorBGR);
+	drawPixel(sc-c+(dif*2)-1,sr-r,colorBGR);
+      }
+  }
+  
+}
+
+
+
+
+
 /** Clear screen (fill with color)
  *  
  *  \param colorBGR The color to fill screen
@@ -75,6 +109,79 @@ void drawChar5x7(u_char rcol, u_char rrow, char c,
   }
 }
 
+
+/*no oc due to not enought symbols being written
+  (causes ASC launguage to be off when implementing)
+*/
+
+
+void drawChar6x8(u_char rcol, u_char rrow, char c, 
+     u_int fgColorBGR, u_int bgColorBGR) 
+{
+  u_char col = 0;
+  u_char row = 0;
+  u_char bit = 0x01;
+  u_char letter = 0;
+
+
+  switch(c){
+      case 'H':
+	letter =1;
+	break;
+      case 'e':
+	letter =2;
+	break;
+      case 'l':
+	letter =3;
+	break;
+      case 'o':
+	letter =4;
+	break;
+      case 'w':
+	letter =5;
+	break;
+      case 'r':
+	letter =6;
+	break;
+      case 'G':
+	letter =8;
+	break;
+      case 'd':
+	letter =7;
+	break;
+      case 'b':
+	letter =9;
+	break;
+      case 'y':
+	letter =10;
+	break;
+      case'.':
+	letter = 11;
+	break;
+      case ' ':
+	letter =0;
+	break;
+	}
+
+  
+
+  lcd_setArea(rcol, rrow, rcol + 5, rrow + 8); /* relative to requested col/row */
+  while (row < 9) {
+    while (col < 6) {
+      u_int colorBGR = (font_6x8[letter][col] & bit) ? fgColorBGR : bgColorBGR;
+      lcd_writeColor(colorBGR);
+      col++;
+    }
+    col = 0;
+    bit <<= 1;
+    row++;
+  }
+}
+
+
+
+
+
 /** Draw string at col,row
  *  Type:
  *  FONT_SM - small (5x8,) FONT_MD - medium (8x12,) FONT_LG - large (11x16)
@@ -93,7 +200,17 @@ void drawString5x7(u_char col, u_char row, char *string,
   u_char cols = col;
   while (*string) {
     drawChar5x7(cols, row, *string++, fgColorBGR, bgColorBGR);
-    cols += 6;
+    cols += 6;//offset char for next letter to be writen
+  }
+}
+
+void drawString6x8(u_char col, u_char row, char *string,
+		u_int fgColorBGR, u_int bgColorBGR)
+{
+  u_char cols = col;
+  while (*string) {
+    drawChar6x8(cols, row, *string++, fgColorBGR, bgColorBGR);
+    cols += 7;//offset char for next char in string to be written
   }
 }
 
