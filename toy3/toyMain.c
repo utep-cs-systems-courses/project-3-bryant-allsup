@@ -25,13 +25,15 @@ void main(void)
 
   or_sr(0x08); // GIE on (enable interrupts)
   
-  for(;;)
-    while(active)//nothing is changing
+  for(;;){
+    while(!active)//nothing is changing
       {
 	leds_changed=1;
 	green_led=1;
 	red_led=1;
-	toggle_led();
+	toggle_led();//led on when CPU OFF
 	or_sr(0x10); // CPU off
       }
+    active = 0;
+  }
 }

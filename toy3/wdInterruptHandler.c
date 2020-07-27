@@ -5,14 +5,15 @@
 #include "switches.h"
 #include "lcdutils.h"
 #include "lcddraw.h"
-
+#include "led.h"
 
 void
 __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
   static char time_count = 0;
 
 
-
+  P1OUT &= ~LED_RED;
+  P1OUT &= ~LED_GREEN;
   switch(state)
     {
 
@@ -20,8 +21,8 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
     case 1://button 1 action
       if(++time_count == 1)
 	{
+	  active = 1;
 	  state_advance();
-	  //time_count=0;
 	}
       break;
 
@@ -30,7 +31,7 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
 	if(++time_count == 15){
 	  clearScreen(COLOR_BLACK);
 	  state_advance();
-	  
+	  active = 0;	  
 	  }
       break;
       
@@ -41,6 +42,7 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
 	  bright();
 	  state_advance();
 	  time_count=0;
+	  active = 1;
 	}
       break;
 
@@ -51,6 +53,7 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
 	  bright();
 	  state_advance();
 	  time_count=0;
+	  active = 1;
 	}
       break;
 

@@ -74,10 +74,10 @@ toggle_led()
       green_led = 0;
       red_led = (counter>1);
       break;
-      //case 2:
-      // green_led = 1;
-      //red_led = 1;
-      //break;
+      case 2:
+       green_led = 1;
+       red_led = 1;
+      break;
     }
   led_update();
 }

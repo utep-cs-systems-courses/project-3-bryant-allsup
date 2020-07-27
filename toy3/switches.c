@@ -26,6 +26,14 @@ switch_init()			/* setup switch */   //anything covered in SWITCHES is init
   switch_update_interrupt_sense();
   state_advance();
 }
+/*
+unsigned int
+p2sx_read()
+{
+  unsigned in sw_changed = switches
+}
+*/
+
 
 void
 switch_interrupt_handler()
