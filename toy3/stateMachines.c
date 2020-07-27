@@ -24,6 +24,7 @@ void state_advance()
     {
 
     case 1: // everything is off and screen is blue
+      active =1;
       sound = 0;
       buzzer_set_period(sound);
       colorBGR=COLOR_BLUE;
@@ -31,11 +32,13 @@ void state_advance()
       break;
 
     case 2: 
+      active =0;
       sound = 0;
       buzzer_set_period(sound);
       break;
 
     case 3:
+      active =1;
       if(sound<2000)
 	{sound+=100;}
       draw();
@@ -43,6 +46,7 @@ void state_advance()
       break;
 
     case 4:
+      active =1;
       if(sound>500)
 	{sound-=100;}
       sc=110;
@@ -75,8 +79,8 @@ toggle_led()
       red_led = (counter>1);
       break;
       case 2:
-       green_led = 1;
-       red_led = 1;
+	green_led = 1;
+	red_led = 1;
       break;
     }
   led_update();

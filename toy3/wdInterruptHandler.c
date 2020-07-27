@@ -12,16 +12,15 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
   static char time_count = 0;
 
 
-  P1OUT &= ~LED_RED;
+  P1OUT &= ~LED_RED;//led off while cpu on
   P1OUT &= ~LED_GREEN;
   switch(state)
     {
 
 
     case 1://button 1 action
-      if(++time_count == 1)
+      if(++time_count == 125)
 	{
-	  active = 1;
 	  state_advance();
 	}
       break;
@@ -30,8 +29,7 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
       case 2://button 2 action
 	if(++time_count == 15){
 	  clearScreen(COLOR_BLACK);
-	  state_advance();
-	  active = 0;	  
+	  state_advance();  
 	  }
       break;
       
@@ -42,7 +40,6 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
 	  bright();
 	  state_advance();
 	  time_count=0;
-	  active = 1;
 	}
       break;
 
@@ -53,7 +50,6 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
 	  bright();
 	  state_advance();
 	  time_count=0;
-	  active = 1;
 	}
       break;
 

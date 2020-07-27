@@ -23,6 +23,7 @@ void main(void)
  
   enableWDTInterrupts();
 
+
   or_sr(0x08); // GIE on (enable interrupts)
   
   for(;;){
