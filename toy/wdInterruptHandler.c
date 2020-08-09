@@ -16,18 +16,13 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
   P1OUT &= ~LED_GREEN;
   switch(state)
     {
-    case 4://button 1 action
-      if(++time_count == 125)
-	{
-	  if(!active)
-	    {
-	      and_sr(0xef);
-	    }
-	  state_advance();
-	  time_count=0;
-	}
+    
+      
+    case 1://button 4 action
+      if(++time_count == 125){
+	state_advance();	
+      }
       break;
-
       
     case 2: //button 2
       if(++time_count == 125)
@@ -56,10 +51,16 @@ __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
 	}
       break;
 
-    case 1://button 4 action
-      if(++time_count == 125){
-	state_advance();	
-      }
+      case 4://button 1 action
+      if(++time_count == 125)
+	{
+	  if(!active)
+	    {
+	      and_sr(0xef);
+	    }
+	  state_advance();
+	  time_count=0;
+	}
       break;
     }
   toggleLed();

@@ -25,11 +25,11 @@ void state_advance()
   switch(state)
     {
 
-    case 4: // everything is off and screen is blue
-      active =1;
+      case 1: 
+      active =0;
       sound = 0;
       buzzer_set_period(sound);
-      draw();
+      draw();//set to default
       break;
 
       case 2:
@@ -52,13 +52,15 @@ void state_advance()
       buzzer_set_period(sound);
       break;
 
-    case 1: 
-      active =0;
+    
+
+          case 4: // everything is off and screen is blue
+      active =1;
       sound = 0;
       buzzer_set_period(sound);
-      draw();//set to default
+      draw();
       break;
-          
+
     }
 }
 
@@ -103,17 +105,12 @@ void draw()
 {
   switch(state)
     {
-    case 4:
-      fillRectangle(0,50,180,180,COLOR_GREEN);
-      drawString6x8(30,20,"Hello world",COLOR_WHITE,COLOR_BLACK);
+      case 1:
+	clearScreen(COLOR_BLACK);
       break;
+   
 
-      
-
-    case 3://green bush
-      fillRectangle(20,20,10,10,COLOR_RED);
-      break;
-    case 2://red square
+    case 2://white rhombus
       for(int c = 0; c<dif;c++){
 	  for(int r = 0; r<=c; r++)
 	    {
@@ -123,9 +120,16 @@ void draw()
 	      drawPixel(sc-c+(dif*2)-1,sr-r,colorBGR);
 	    }
 	}
+      break;  
+
+    case 3://red square
+      fillRectangle(20,20,10,10,COLOR_RED);
       break;
-      case 1:
-	clearScreen(COLOR_BLACK);
+    
+       case 4:
+      fillRectangle(0,50,180,180,COLOR_GREEN);
+      drawString6x8(30,20,"Hello world",COLOR_WHITE,COLOR_BLACK);
       break;
+      
     }
 }
