@@ -6,6 +6,7 @@
 char button1_down, button2_down, button3_down, button4_down, switch_state_changed;
 /* effectively boolean */
 
+
 static char 
 switch_update_interrupt_sense()
 {

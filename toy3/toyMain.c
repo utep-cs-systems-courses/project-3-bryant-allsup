@@ -9,17 +9,16 @@
 
 void picture();
 
-
 void main(void) 
 {  
   configureClocks();
 
   lcd_init();
-  u_char width = screenWidth, height = screenHeight;  
+  u_char width = screenWidth, height = screenHeight;
+  clearScreen(COLOR_BLACK);
   switch_init();
   led_init();
   buzzer_init();
-
  
   enableWDTInterrupts();
 
@@ -30,9 +29,10 @@ void main(void)
     while(!active)//nothing is changing
       {
 	leds_changed=1;
-	green_led=1;
+	green_led=0;
 	red_led=1;
-	toggle_led();//led on when CPU OFF
+	led_update();//led on when CPU OFF
+	status = get_sr();//saves a copy of the sr
 	or_sr(0x10); // CPU off
       }
     active = 0;

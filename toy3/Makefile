@@ -27,7 +27,7 @@ clean:
 erase:
 	rm -f *~ *#
 
-toy.elf: ${COMMON_OBJECTS} p1_interrupt_handler.o led.o switches.o toyMain.o ../lib/libTimer.a buzzer.o stateMachines.o wdInterruptHandler.o libLcd.a 
+toy.elf: ${COMMON_OBJECTS} p1_interrupt_handler.o led.o switches.o toyMain.o ../lib/libTimer.a buzzer.o stateMachines.o wdInterruptHandler.o libLcd.a toggleLed.o
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer 
 
 load: toy.elf

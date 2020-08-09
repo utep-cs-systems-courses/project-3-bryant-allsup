@@ -7,7 +7,7 @@ void bright();
 void count();
 void draw();
 
-
+extern int status;
 extern char sc;
 extern char sr;
 extern char dif;
